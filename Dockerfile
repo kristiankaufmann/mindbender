@@ -56,8 +56,8 @@ RUN conda config --add channels conda-forge && \
     
 RUN mkdir -p /opt/mindbender
 COPY ./ /opt/mindbender
-RUN chmod +x /opt/mindbender/prognos_start_mindtagger.sh
+RUN chmod +x /opt/mindbender/entrypoint
 #RUN rm /opt/mindbender/.depends/.all/bin/bash
 RUN npm install -g phantomjs
 RUN cd /opt/mindbender/ && USER=prognos NODE_PATH=/usr/local/n/versions/node/6.11.0/lib/node_modules/ make
-ENTRYPOINT ["/opt/mindbender/prognos_start_mindtagger.sh"]
+ENTRYPOINT ["/opt/mindbender/entrypoint"]
