@@ -112,4 +112,4 @@ app.use express.static "#{__dirname}/files"
 
 # start listening
 server.listen (app.get "port"), ->
-    util.log "Mindbender GUI started at http://#{os.hostname()}:#{app.get "port"}/"
+    util.log "Mindbender GUI started at http://localhost:#{app.get "port"}/"

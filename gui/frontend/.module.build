@@ -16,7 +16,7 @@ ln -sfn ../bower_components build/
 if [[ node_modules -ot package.json ||
         node_modules -ot bower.json ||
         bower_components -ot bower.json ]]; then
-    npm install
+    yarn install
     touch node_modules bower_components
 fi
 export PATH="$PWD/node_modules/.bin:$PATH"
