@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.10.0
+FROM ubuntu:18.04
 MAINTAINER kkaufmann@prognos.ai
 
 # Specify a mounted volume for joblib to use as temp space
@@ -7,31 +7,56 @@ MAINTAINER kkaufmann@prognos.ai
 RUN mkdir $HOME/joblib
 VOLUME ["$HOME/joblib"]
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install curl bzip2 s3fs -yqq --no-install-recommends \
-        build-essential \
-        pkg-config \
-        fuse \
-        mime-support \
-        default-jdk \
-        libcurl4-gnutls-dev \
-        libfuse-dev \
-        libssl-dev \
-        libgl1-mesa-glx \
-        libxml2-dev \
-        git \
-        automake \
-        nodejs \
-        npm \
-        python-pip \
-        rsync \
-        unzip \ 
-        && \
-    npm cache clean -f && \
+RUN apt-get update -y 
+RUN apt-get upgrade -y 
+RUN apt-get install -y \
+        curl 
+RUN apt-get install -y \
+        bzip2 
+RUN apt-get install -y \
+        s3fs 
+RUN apt-get install -y \
+        build-essential 
+RUN apt-get install -y \
+        pkg-config 
+RUN apt-get install -y \
+        fuse 
+RUN apt-get install -y \
+        mime-support 
+RUN apt-get install -y \
+        default-jdk 
+RUN apt-get install -y \
+        libcurl4-gnutls-dev 
+RUN apt-get install -y \
+        libfuse-dev 
+RUN apt-get install -y \
+        libssl-dev 
+RUN apt-get install -y \
+        libgl1-mesa-glx
+RUN apt-get install -y \
+        libxml2-dev 
+RUN apt-get install -y \
+        git 
+RUN apt-get install -y \
+        automake 
+RUN apt-get install -y \
+        nodejs 
+RUN apt-get install -y \
+        npm 
+RUN apt-get install -y \
+        python-pip 
+RUN apt-get install -y \
+        rsync 
+RUN apt-get install -y \
+        unzip  
+RUN apt-get install -y \
+        node-less
+RUN apt-get install -y \
+        bats
+RUN npm cache clean -f && \
     npm install -g n && \
     npm install --global coffeescript yarn && \
-    n 6.11.0 \
+    n 12.16.1 \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* \
     && curl https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh > /tmp/Miniconda3-latest-Linux-x86_64.sh \
@@ -58,6 +83,6 @@ RUN mkdir -p /opt/mindbender
 COPY ./ /opt/mindbender
 RUN chmod +x /opt/mindbender/entrypoint
 #RUN rm /opt/mindbender/.depends/.all/bin/bash
-RUN npm install -g phantomjs
-RUN cd /opt/mindbender/ && USER=prognos NODE_PATH=/usr/local/n/versions/node/6.11.0/lib/node_modules/ make
+#RUN npm install -g phantomjs
+RUN cd /opt/mindbender/ && USER=prognos make
 ENTRYPOINT ["/opt/mindbender/entrypoint"]
